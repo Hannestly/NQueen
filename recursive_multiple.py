@@ -14,10 +14,19 @@ for i in range(0,size):
 #The first Queen is set at column 0 and row 0, and it is safe, therefore we start the search for new safe spot in the column 1
 n = 1
 def solve(n): 
-    #The base case: When we are dealing with queen > size of the board, means we have solved the problem
-    if n == size:
-        printBoard(size)
+    solution = 0
+
+    #The base case: ran out of solutions, end the recursion method
+    if n == -1:
         return True
+
+    #The base case: a solution has been found
+    if n == size:
+        solution += 1 
+        print("Solution number " + str(solution))
+        printBoard(size)
+        queen[n-1] = queen[n-1] + 1
+        return solve(n-1)
 
     #executed if the queen cannot find a safe row in a column 
     #brings the row value of the column to be 0 (resetting) and calls recursive call of a column before
