@@ -12,39 +12,42 @@ for i in range(0,size):
     queen[i] = 0
 
 #The first Queen is set at column 0 and row 0, and it is safe, therefore we start the search for new safe spot in the column 1
-n = 1
-def solve(n): 
-    solution = 0
+n = 0
+solution = 0
 
-    #The base case: ran out of solutions, end the recursion method
+def solve(n,solution): 
+#The base case: ran out of solutions, end the recursion method
     if n == -1:
         return True
 
-    #The base case: a solution has been found
+#The base case: a solution has been found
     if n == size:
-        solution += 1 
+        solution += 1
         print("Solution number " + str(solution))
         printBoard(size)
         queen[n-1] = queen[n-1] + 1
-        return solve(n-1)
+        return solve(n-1,solution)
 
-    #executed if the queen cannot find a safe row in a column 
-    #brings the row value of the column to be 0 (resetting) and calls recursive call of a column before
+#executed if the queen cannot find a safe row in a column 
+#brings the row value of the column to be 0 (resetting) and calls recursive call of a column before
     if queen[n] == size:
         queen[n] = 0
         queen[n-1] = queen[n-1] +1
-        return solve(n-1)
+        return solve(n-1,solution)
     
     #if the place of current row is safe for the queen of column 'n', then call the recursive call for the next column
     #if the row is not safe, move the row down, and call the function again to check if the new row is safe
     if isSafe(n) == True:
-        return solve(n+1)
+        return solve(n+1,solution)
     else: 
         queen[n] = queen[n]+1
-        return solve(n)
+        return solve(n,solution)
 
 def isSafe(n):
     #check if the row is safe
+    if n == 0:
+        return True
+
     for rowCheck in range(0, n):
         if queen[rowCheck] == queen[n]:
             return False
@@ -81,4 +84,4 @@ def printBoard(size):
     for printRow in range(0,size):
         print(board[printRow])
 
-solve(n)
+solve(n,solution)

@@ -12,7 +12,7 @@ for i in range(0,size):
     queen[i] = 0
 
 #The first Queen is set at column 0 and row 0, and it is safe, therefore we start the search for new safe spot in the column 1
-n = 1
+n = 0
 def solve(n): 
     #The base case: When we are dealing with queen > size of the board, means we have solved the problem
     if n == size:
