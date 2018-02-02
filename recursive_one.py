@@ -1,3 +1,4 @@
+import time
 #The user inputs the dimension of the board. The dimension is equal to the number of queens placed 
 size = input("Enter the number of Queen")
 size = int(size)
@@ -15,27 +16,36 @@ for i in range(0,size):
 n = 0
 def solve(n): 
     #The base case: When we are dealing with queen > size of the board, means we have solved the problem
-    if n == size:
+    if n >= size:
         printBoard(size)
         return True
+    
+    if n == 0:
+        if queen[n] == size:
+            return True
 
     #executed if the queen cannot find a safe row in a column 
     #brings the row value of the column to be 0 (resetting) and calls recursive call of a column before
-    if queen[n] == size:
+    if queen[n] >= size:
         queen[n] = 0
         queen[n-1] = queen[n-1] +1
         return solve(n-1)
     
     #if the place of current row is safe for the queen of column 'n', then call the recursive call for the next column
     #if the row is not safe, move the row down, and call the function again to check if the new row is safe
-    if isSafe(n) == True:
-        return solve(n+1)
-    else: 
+    if isSafe(n) == False:
         queen[n] = queen[n]+1
         return solve(n)
 
+    return solve(n+1)
+  
+        
+
 def isSafe(n):
     #check if the row is safe
+    if n == 0:
+        return True
+
     for rowCheck in range(0, n):
         if queen[rowCheck] == queen[n]:
             return False
@@ -51,6 +61,7 @@ def isSafe(n):
             p -= 1
             diagUp -= 1
             diagDown += 1
+
     
     #Once the row and diagonal checks are complete, the row n is safe, return True
     return True 
@@ -71,5 +82,7 @@ def printBoard(size):
     #print the board, row by row
     for printRow in range(0,size):
         print(board[printRow])
-
+t0 = time.time()
 solve(n)
+t1 = time.time()
+print("time taken: " + str(t1-t0))
