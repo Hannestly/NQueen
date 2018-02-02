@@ -13,33 +13,33 @@ for i in range(0,size):
     queen[i] = 0
 
 #The first Queen is set at column 0 and row 0, and it is safe, therefore we start the search for new safe spot in the column 1
-n = 0
-def solve(n): 
-    #The base case: When we are dealing with queen > size of the board, means we have solved the problem
-    if n >= size:
-        printBoard(size)
-        return True
-    
-    if n == 0:
-        if queen[n] == size:
-            return True
 
-    #executed if the queen cannot find a safe row in a column 
-    #brings the row value of the column to be 0 (resetting) and calls recursive call of a column before
-    if queen[n] >= size:
-        queen[n] = 0
-        queen[n-1] = queen[n-1] +1
-        return solve(n-1)
-    
-    #if the place of current row is safe for the queen of column 'n', then call the recursive call for the next column
-    #if the row is not safe, move the row down, and call the function again to check if the new row is safe
-    if isSafe(n) == False:
-        queen[n] = queen[n]+1
-        return solve(n)
+def solve(size): 
+    t0 = time.time()
+#n represent he column number we are dealing with
+    n = 0
+#solution represent the number of solutions found. Initialized at 0
+#unconditional loop, to ensure that the loop is never broken unless it hits a speicific case
+    while True :
 
-    return solve(n+1)
-  
-        
+#dealing with column size equal greater than the size we've set - meaning we found a solution. 
+        if n == size:
+            print("solution found")
+            printBoard(size)
+            break
+#row number of the column is greater than the board's dimension. initialize the row number and look for another 
+#solution of the previous column
+        elif queen[n] == size:
+            queen[n] =0
+            queen[n-1] = queen[n-1] +1
+            n-=1
+#the positoin of the queen in that row, of that column is unsafe, move one row down
+        elif isSafe(n) == False:
+            queen[n] = queen[n] +1
+#The position of the queen is safe, move on to the next position
+        elif isSafe(n) == True:
+            n += 1
+    
 
 def isSafe(n):
     #check if the row is safe
@@ -83,6 +83,6 @@ def printBoard(size):
     for printRow in range(0,size):
         print(board[printRow])
 t0 = time.time()
-solve(n)
+solve(size)
 t1 = time.time()
 print("time taken: " + str(t1-t0))
